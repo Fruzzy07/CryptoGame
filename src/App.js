@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import GameList from './components/GameList';
+import Login from './components/Login';
+import Signup from './components/Register';
+import Miner from './components/Miner'; // Create and import your game components
+import Monetka from './components/Monetka';
+import RockPaperScissors from './components/RockPaperScissors';
 import './App.css';
+import './components/rock-paper-scissors.css';
+import './components/Miner.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<GameList />} />
+          <Route path="/games" element={<GameList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/miner" element={<Miner />} /> {/* Add game-specific routes */}
+          <Route path="/monetka" element={<Monetka />} />
+          <Route path="/rock-paper-scissors" element={<RockPaperScissors />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+

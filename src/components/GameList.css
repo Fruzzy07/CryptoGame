@@ -1,0 +1,15 @@
+.game-list {
+    background-color: #1a1a2e;
+    display: flex;
+    justify-content: space-between; /* Adjusts spacing between items */
+    gap: 20px; /* Adds space between game cards */
+    flex-wrap: nowrap; /* Ensures items stay in one line and do not wrap */
+    overflow-x: auto; /* Adds horizontal scroll if needed */
+    padding: 20px
+  }
+  
+  .game-card {
+    flex: 1; /* Allows the cards to take equal space */
+    max-width: 400px; /* Set a limit to prevent cards from expanding too much */
+  }
+  
