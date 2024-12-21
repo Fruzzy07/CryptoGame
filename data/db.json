@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "b0af",
+      "username": "123",
+      "email": "123@mail.tu",
+      "password": "123",
+      "token": "token-123"
+    },
+    {
+      "id": "fbf0",
+      "username": "456",
+      "email": "456@mail.ru",
+      "password": "456",
+      "token": "token-456"
+    }
+  ]
+}
