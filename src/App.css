@@ -1,38 +1,97 @@
-.App {
+/* src/App.css */
+
+body {
+  background-color: #1a1a2e; /* Черный фон для всей страницы */
+  color: white; /* Белый текст на черном фоне */
+  margin: 0; /* Убираем отступы */
+  font-family: Arial, sans-serif; /* Шрифт */
+}
+
+.header.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.logo-crypto{
+  margin-left: 50px;
+}
+
+.nav a{
+  color:#00ff99;
+}
+
+.login-btn, .register-btn {
+  margin-left: 0px;
+  color: #ffffff;
+}
+
+.game-card {
+  background-color: #1a1a2e;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  color: #fff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.auth-page {
+  background-color: #1a1a2e;
+  color: #fff;
+  padding: 40px;
+  text-align: center;
   min-height: 100vh;
+}
+
+.auth-page h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.auth-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+}
+
+button.submit-btn {
+  background-color: #14b8a6;
+  padding: 10px 20px;
+  font-size: 1rem;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+button.submit-btn:hover {
+  background-color: #1a1a2e;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
