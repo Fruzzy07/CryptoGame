@@ -10,6 +10,7 @@ import RockPaperScissors from './components/RockPaperScissors';
 import './App.css';
 import './components/rock-paper-scissors.css';
 import './components/Miner.css';
+import ProtectedRoute from './service/ProtectedRoute';
 
 function App() {
   return (
@@ -21,9 +22,18 @@ function App() {
           <Route path="/games" element={<GameList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/miner" element={<Miner />} />
-          <Route path="/monetka" element={<Monetka />} />
-          <Route path="/rock-paper-scissors" element={<RockPaperScissors />} />
+          <Route path="/miner" element={
+            <ProtectedRoute>
+              <Miner />
+            </ProtectedRoute>} />
+          <Route path="/monetka" element={
+            <ProtectedRoute>
+              <Monetka />
+            </ProtectedRoute>} />
+          <Route path="/rock-paper-scissors" element={
+            <ProtectedRoute>
+              <RockPaperScissors />
+            </ProtectedRoute>} />
         </Routes>
       </div>
     </Router>
