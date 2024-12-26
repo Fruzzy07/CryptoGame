@@ -1,10 +1,14 @@
-.square-item{
+.square-item {
     width: 90px;
     height: 90px;
-    background: rebeccapurple;
+    background: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.square-item:hover{
-    transform: translateY(-5px);
-    cursor: pointer;
+.square-item img {
+    pointer-events: none;
 }
