@@ -1,85 +1,124 @@
 /* src/components/Header.css */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #1a1a2e;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .logo-crypto {
-    color: #e94560; /* Red color */
-  }
-  
-  .logo-games {
-    color: #ffffff; /* White color */
-  }
-  
-  .nav {
-    display: flex;
-    gap: 10px; /* Adjust gap to make it more compact if needed */
-    align-items: center; /* Ensure items are vertically aligned in the middle */
-  }
-  
-  .nav a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1rem;
-    display: flex; /* Allow logo and text to be aligned together */
-    align-items: center; /* Align items vertically */
-    gap: 5px; /* Add space between logo and text */
-    transition: color 0.3s;
-  }
-  
-  .nav a:hover {
-    color: #ffffff;
-  }
-  
-  .nav a:active, .nav a:focus {
-    border-bottom: 2px solid #00ff99; /* Underline with green color when active or focused */
-  }
-  
-  .logo-nav {
-    width: 20px; /* Adjust logo size */
-    height: 20px;
-  }
-  
-  .login-btn {
-    background-color: #19191b;
-    border: 2px solid #ffffff;
-    border-radius: 5px;
-    padding: 8px 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-  }
-  
-  .login-btn:hover {
-    background-color: #ffffff;
-    color: #19191b; /* Dark text color on hover for contrast */
-    border-color: #19191b;
-  }
-  
-  .register-btn {
-    background-color: #14b8a6;
-    border-radius: 5px;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  .register-btn:hover {
-    background-color: #ffffff;
-    color: #19191b; /* Dark text color on hover for contrast */
-    border-color: #19191b;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-crypto {
+  color: #e94560; /* Red color */
+}
+
+.logo-games {
+  color: #ffffff; /* White color */
+}
+
+.nav {
+  display: flex;
+  gap: 10px; /* Adjust gap to make it more compact if needed */
+  align-items: center; /* Ensure items are vertically aligned in the middle */
+}
+
+.nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex; /* Allow logo and text to be aligned together */
+  align-items: center; /* Align items vertically */
+  gap: 5px; /* Add space between logo and text */
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+.nav a:active, .nav a:focus {
+  border-bottom: 2px solid #00ff99; /* Underline with green color when active or focused */
+}
+
+.logo-nav {
+  width: 20px; /* Adjust logo size */
+  height: 20px;
+}
+
+.login-btn {
+  background-color: #19191b;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #ffffff;
+  color: #19191b; /* Dark text color on hover for contrast */
+  border-color: #19191b;
+}
+
+.register-btn {
+  background-color: #14b8a6;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.register-btn:hover {
+  background-color: #ffffff;
+  color: #19191b; /* Dark text color on hover for contrast */
+  border-color: #19191b;
+}
+
+.balance {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00ff99; /* Green color for balance */
+  margin-right: 20px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background-color: #33334d; /* Dark background for the balance box */
+}
+
+.wallet-btn {
+  background-color: #e94560; /* Red color */
+  border-radius: 5px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.wallet-btn:hover {
+  background-color: #ffffff;
+  color: #e94560; /* Red text color on hover for contrast */
+  border: 1px solid #e94560;
+}
+
+.wallet-btn:disabled {
+  background-color: #666666; /* Disabled state */
+  cursor: not-allowed;
+}
+
+.nav .wallet-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
 
   
   
