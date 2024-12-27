@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useGlobalState } from '../context/GlobalState'; // Import the context hook
 import './rock-paper-scissors.css';
 
 const RockPaperScissors = () => {
@@ -17,13 +18,24 @@ const RockPaperScissors = () => {
     return savedResults ? JSON.parse(savedResults) : [];
   });
 
+  const { balance, setBalance } = useGlobalState(); // Get balance from global state
+
   const choices = ['rock', 'paper', 'scissors'];
 
   useEffect(() => {
     localStorage.setItem('gameResults', JSON.stringify(gameResults));
   }, [gameResults]);
 
+  useEffect(() => console.log(balance), [balance]);
+
   const handleClick = (value) => {
+    if (balance < 0.0001) {
+      setResult('Insufficient balance to play.');
+      return;
+    }
+    // Deduct 0.0001 from balance when the game starts
+    setBalance((balance) => balance - 0.0001);
+
     setUserChoice(value);
     playGame(value);
   };
@@ -37,6 +49,8 @@ const RockPaperScissors = () => {
 
     if (playerChoiceValue === dealerChoiceValue) {
       setTurnResult("It's a tie!");
+      // Return the 0.0001 back if it's a tie
+      setBalance((balance) => (balance + 0.0001).toFixed(4));
     } else if (
       (playerChoiceValue === 0 && dealerChoiceValue === 2) ||
       (playerChoiceValue === 1 && dealerChoiceValue === 0) ||
@@ -44,6 +58,8 @@ const RockPaperScissors = () => {
     ) {
       setTurnResult('You win this round!');
       setUserPoints((prev) => prev + 1);
+      // Increase balance by 0.0002 if the user wins
+      setBalance((balance) => (balance + 0.0002).toFixed(4));
     } else {
       setTurnResult('You lose this round!');
       setComputerPoints((prev) => prev + 1);
@@ -74,12 +90,13 @@ const RockPaperScissors = () => {
       setGameOver(true);
       setResult('Congratulations! You won the game!');
       setDisable(true);
+      setBalance((balance) => (Number(balance) + 0.0003).toFixed(4));
     } else if (computerPoints === 2) {
       setGameOver(true);
       setResult('Game over! Computer won.');
       setDisable(true);
     }
-  }, [userPoints, computerPoints]);
+  }, [userPoints, computerPoints, setBalance]);
 
   const reset = () => {
     setDisable(false);
@@ -113,6 +130,13 @@ const RockPaperScissors = () => {
         <h1>Computer Points: {computerPoints}</h1>
       </div>
 
+      {/* Show a message if the balance is insufficient */}
+      {balance < 0.0001 && (
+        <h2 className="warning">
+          Insufficient balance to play the game. Please top-up!
+        </h2>
+      )}
+
       <div className="choice">
         <div className="choice-user">
           <img
@@ -135,7 +159,7 @@ const RockPaperScissors = () => {
           <button
             key={choice}
             onClick={() => handleClick(choice)}
-            disabled={buttonDisabled}
+            disabled={buttonDisabled || balance < 0.0001} // Disable button if balance is insufficient
           >
             {choice.charAt(0).toUpperCase() + choice.slice(1)}
           </button>
@@ -148,7 +172,10 @@ const RockPaperScissors = () => {
       </div>
 
       {gameOver && (
-        <button className="reset" onClick={reset}>
+        <button
+          className="reset"
+          onClick={reset}
+        >
           Reset Game
         </button>
       )}
