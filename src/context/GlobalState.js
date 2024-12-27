@@ -6,21 +6,27 @@ const GlobalStateContext = createContext();
 export const useGlobalState = () => useContext(GlobalStateContext);
 
 export const GlobalStateProvider = ({ children }) => {
-  const [balance, setBalance] = useState(0.0001); // Initial balance in Ether
+  const [balance, setBalance] = useState(0); // UserContract balance in Ether
   const [signer, setSigner] = useState(null);
-  const [contract, setContract] = useState(null);
+  const [userContract, setUserContract] = useState(null);
+  const [storageContract, setStorageContract] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const contractAddress = '0xe96A52fb22dD49959758b39fc8e533E67a60030b'; // Replace with your smart contract address
+  const userContractAddress = '0x4BD40635CF6b177d9A7E71f3200C50e30960D132'; // Replace with actual address
+  const storageContractAddress = '0x628d51d1EADDE476C9F77d839891DeC9b98c1229'; // Replace with actual address
 
-  // Contract ABI (same as yours, but added some comments)
-  const contractABI = useMemo(() => [
+  // Contract ABIs
+  const userContractABI = useMemo(() => [
     {
-      "inputs": [],
-      "name": "deposit",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_storageContractAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
       "inputs": [
@@ -36,14 +42,12 @@ export const GlobalStateProvider = ({ children }) => {
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "balances",
+      "stateMutability": "payable",
+      "type": "receive"
+    },
+    {
+      "inputs": [],
+      "name": "getBalance",
       "outputs": [
         {
           "internalType": "uint256",
@@ -52,6 +56,47 @@ export const GlobalStateProvider = ({ children }) => {
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "storageContract",
+      "outputs": [
+        {
+          "internalType": "contract IStorageContract",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ], []);
+
+  const storageContractABI = useMemo(() => [
+    {
+      "inputs": [],
+      "name": "depositFunds",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -75,14 +120,17 @@ export const GlobalStateProvider = ({ children }) => {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum); // For ethers v5.x.x
         const userSigner = provider.getSigner();
-        const userContract = new ethers.Contract(contractAddress, contractABI, userSigner);
+        
+        const userContractInstance = new ethers.Contract(userContractAddress, userContractABI, userSigner);
+        const storageContractInstance = new ethers.Contract(storageContractAddress, storageContractABI, userSigner);
 
         setSigner(userSigner);
-        setContract(userContract);
+        setUserContract(userContractInstance);
+        setStorageContract(storageContractInstance);
 
-        const userBalance = await userContract.getBalance();
+        const userBalance = await userContractInstance.provider.getBalance(userContractAddress);
         const formattedBalance = ethers.utils.formatUnits(userBalance, 18); // Convert to Ether
-        setBalance(formattedBalance); // Set the balance in the state
+        setBalance(formattedBalance);
         setIsConnected(true);
       } catch (error) {
         console.error('Error connecting to MetaMask:', error);
@@ -91,39 +139,39 @@ export const GlobalStateProvider = ({ children }) => {
     } else {
       alert('MetaMask is not installed');
     }
-  }, [contractAddress, contractABI]);
+  }, [userContractAddress, userContractABI, storageContractAddress, storageContractABI]);
 
-  // Deposit function to send Ether to the contract
+  // Deposit function to send Ether to UserContract
   const deposit = async (amount) => {
-    if (!contract || !signer) return;
+    if (!userContract || !signer) return;
 
     try {
-      const tx = await contract.deposit({
+      // Send Ether directly to the UserContract using the receive function
+      const tx = await signer.sendTransaction({
+        to: userContractAddress,
         value: ethers.utils.parseUnits(amount.toString(), 18), // Convert to Wei
       });
       await tx.wait();
 
       // Update the balance after deposit
-      const newBalance = await contract.getBalance();
-      const formattedBalance = ethers.utils.formatUnits(newBalance, 18);
-      setBalance(formattedBalance);
+      const updatedBalance = await userContract.provider.getBalance(userContractAddress);
+      setBalance(ethers.utils.formatUnits(updatedBalance, 18));
     } catch (error) {
       console.error('Error depositing:', error);
     }
   };
 
-  // Withdraw function to withdraw Ether from the contract
+  // Withdraw function using funds from StorageContract
   const withdraw = async (amount) => {
-    if (!contract || !signer) return;
+    if (!userContract || !storageContract || !signer) return;
 
     try {
-      const tx = await contract.withdraw(ethers.utils.parseUnits(amount.toString(), 18)); // Convert to Wei
+      const tx = await userContract.withdraw(ethers.utils.parseUnits(amount.toString(), 18)); // Convert to Wei
       await tx.wait();
 
       // Update the balance after withdrawal
-      const newBalance = await contract.getBalance();
-      const formattedBalance = ethers.utils.formatUnits(newBalance, 18);
-      setBalance(formattedBalance);
+      const updatedBalance = await userContract.provider.getBalance(userContractAddress);
+      setBalance(ethers.utils.formatUnits(updatedBalance, 18));
     } catch (error) {
       console.error('Error withdrawing:', error);
     }
@@ -137,7 +185,7 @@ export const GlobalStateProvider = ({ children }) => {
   }, [isConnected, connectWallet]);
 
   return (
-    <GlobalStateContext.Provider value={{ balance, deposit, withdraw }}>
+    <GlobalStateContext.Provider value={{ balance, setBalance, deposit, withdraw }}>
       {children}
     </GlobalStateContext.Provider>
   );

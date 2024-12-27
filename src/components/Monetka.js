@@ -15,7 +15,7 @@ import './Monetka.css';
 import { useGlobalState } from '../context/GlobalState';
 
 const CoinFlipGame = () => {
-  const { balance, setBalance } = useGlobalState(); // Access global state
+  const { balance, setBalance, deposit, withdraw } = useGlobalState(); // Access global state and functions
   const [side, setSide] = useState('heads');
   const [result, setResult] = useState(null);
   const [flipping, setFlipping] = useState(false);
@@ -35,7 +35,7 @@ const CoinFlipGame = () => {
     if (result !== null && gameActive) {
       if (result === side) {
         // Player wins: double the stake
-        setBalance((balance) => balance + 0.0001); // Adding the stake to balance
+        setBalance((prevBalance) => prevBalance + 0.0001); // Adding the stake to balance
         setShowConfetti(true);
         toast({
           title: 'Congratulations!',
@@ -78,6 +78,9 @@ const CoinFlipGame = () => {
       return;
     }
 
+    // Deduct the stake amount before the flip
+    withdraw(0.0001);
+
     setFlipping(true);
     setCoinFace('');
     setResult(null); // Clear the previous result to prevent seeing it
@@ -118,7 +121,6 @@ const CoinFlipGame = () => {
         <Text
           className="coin-flip-description"
           color={textColor}
-          // mb={4}
         >
           Try your luck and flip the coin!
         </Text>
@@ -240,29 +242,9 @@ const CoinFlipGame = () => {
         )}
       </Box>
 
-      {/* Balance Display */}
-      <Box
-        className="balance-container"
-        bg={boxBg}
-        borderColor={boxBorder}
-        p={4}
-        width="100%"
-        maxWidth="600px"
-        mt={6}
-        borderRadius="lg"
-        boxShadow="sm"
-      >
-        <Text
-          fontSize="xl"
-          fontWeight="bold"
-          textAlign="center"
-          mb={4}
-        >
-          Your Balance: {balance.toFixed(4)} BTC
-        </Text>
-      </Box>
     </VStack>
   );
 };
 
 export default CoinFlipGame;
+
