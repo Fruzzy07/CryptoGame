@@ -6,7 +6,7 @@ const GlobalStateContext = createContext();
 export const useGlobalState = () => useContext(GlobalStateContext);
 
 export const GlobalStateProvider = ({ children }) => {
-  const [balance, setBalance] = useState(0); // UserContract balance in Ether
+  const [balance, setBalance] = useState(0.0001); // UserContract balance in Ether
   const [signer, setSigner] = useState(null);
   const [userContract, setUserContract] = useState(null);
   const [storageContract, setStorageContract] = useState(null);
