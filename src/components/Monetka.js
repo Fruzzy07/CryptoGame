@@ -239,6 +239,7 @@ const CoinFlipGame = () => {
           ))
         )}
       </Box>
+
     </VStack>
   );
 };

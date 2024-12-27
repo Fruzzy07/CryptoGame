@@ -12,7 +12,8 @@ import './components/rock-paper-scissors.css';
 import './components/Miner.css';
 import ProtectedRoute from './service/ProtectedRoute';
 import { GlobalStateProvider } from './context/GlobalState';
-
+import Payment from './context/payment';
+import Home from './components/Home';
 function App() {
   return (
     <GlobalStateProvider>
@@ -20,22 +21,10 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route
-              path="/"
-              element={<GameList />}
-            />
-            <Route
-              path="/games"
-              element={<GameList />}
-            />
-            <Route
-              path="/login"
-              element={<Login />}
-            />
-            <Route
-              path="/signup"
-              element={<Register />}
-            />
+            <Route path="/" element={<Home />} />
+            <Route path="/games" element={<ProtectedRoute><GameList /></ProtectedRoute> } />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
             <Route
               path="/miner"
               element={
@@ -57,6 +46,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <RockPaperScissors />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <Payment />
                 </ProtectedRoute>
               }
             />

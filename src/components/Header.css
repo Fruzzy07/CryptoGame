@@ -8,7 +8,9 @@
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+a {
+  text-decoration: none;
+}
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -118,6 +120,13 @@
   gap: 15px;
   align-items: center;
 }
+
+
+  
+  
+  
+
+  
 
 
   
